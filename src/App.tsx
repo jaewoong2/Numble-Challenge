@@ -1,26 +1,15 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import Headers from "./Components/Headers";
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Headers
+        bannerSrc="https://class101.net/events/6182c7f6eea106001462755e"
+        bannerContent="지금 가입하고 원하는 클래스 1개 무료 체험하기 >"
+      />
     </div>
   );
-}
+};
 
 export default App;
