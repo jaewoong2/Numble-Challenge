@@ -2,6 +2,7 @@ type colorType = {
     orange: string;
     gray: string;
     black: string;
+    grayDarker: string;
 }
 
 

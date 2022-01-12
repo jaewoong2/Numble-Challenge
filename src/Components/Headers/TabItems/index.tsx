@@ -1,7 +1,9 @@
-import { Tabs } from "@class101/ui";
+import { DropDownIcon, Tabs } from "@class101/ui";
 import { TabItem } from "@class101/ui/dist/components/Tabs/TabItem";
 import styled from "@emotion/styled";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
+import { CATEGORIES } from "src/Constant";
+import Categories from "../Categories";
 import Navs, { NavItem } from "../Navs";
 
 const Wrapper = styled.div`
@@ -34,11 +36,26 @@ const Wrapper = styled.div`
     padding-bottom: 12px;
   }
 
-  .tab {
-    box-shadow: none;
-    .category {
-      &::before {
-        display: none;
+  .tab-wrapper {
+    position: relative;
+
+    .tab {
+      display: flex;
+      box-shadow: none;
+      align-items: center;
+      margin-right: 32px;
+
+      .category {
+        margin: 0;
+        div {
+          color: ${({ theme }) => theme.color.black};
+          font-weight: bolder;
+          font-size: 16px;
+        }
+
+        &::before {
+          display: none;
+        }
       }
     }
   }
@@ -54,11 +71,13 @@ const Wrapper = styled.div`
     a {
       margin-right: 0px;
     }
+
+    .tab-wrapper,
     .sub-navs {
       display: none;
     }
 
-    padding: 18px 24px 8px 24px;
+    padding: 0px 24px 8px 24px;
     margin: 0;
   }
 `;
@@ -76,28 +95,41 @@ interface TabsProps {
 const TabItems: React.VFC<TabsProps> = ({ mainNavs, subNavs }) => {
   const [isHover, setIsHover] = useState(false);
 
+  const onMouseToggle = useCallback((enter: boolean) => {
+    if (enter) {
+      setIsHover(true);
+    } else {
+      setIsHover(false);
+    }
+  }, []);
   return (
     <Wrapper>
       <div
-        onMouseEnter={() => {
-          setIsHover(true);
-        }}
-        onMouseLeave={() => {
-          setIsHover(false);
-        }}
+        className="tab-wrapper"
+        onMouseEnter={() => onMouseToggle(true)}
+        onMouseLeave={() => onMouseToggle(false)}
       >
         <Tabs
+          key="tab"
           className="tab"
           value={isHover ? "category" : ""}
           onChange={() => {}}
         >
           <TabItem
+            key="category"
             className="category"
             title="전체 카테고리"
             value="category"
-            panel={<div>카테고리</div>}
+            panel={
+              <Categories
+                onMouseEnter={() => onMouseToggle(true)}
+                onMouseLeave={() => onMouseToggle(false)}
+                categories={CATEGORIES}
+              />
+            }
             active={false}
           />
+          <DropDownIcon />
         </Tabs>
       </div>
       <Navs className="main-navs" hover={true} navs={mainNavs} />

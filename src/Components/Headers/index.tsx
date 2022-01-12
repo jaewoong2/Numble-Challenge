@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import { theme } from "src/Style/theme";
 import Banner from "./Banner";
 import Header from "./Header";
@@ -11,13 +11,20 @@ interface HeadersProps {
 }
 
 const Headers: React.VFC<HeadersProps> = ({ bannerContent, bannerSrc }) => {
+  const [bannerHide, setBannerHide] = useState(false);
+
+  const onClickBannerCloseBtn = useCallback(() => {
+    setBannerHide(true);
+  }, []);
+
   return (
-    <div>
+    <React.Fragment>
       <Banner
+        hide={bannerHide}
         onClickBanner={() => {}}
         fontColor="white"
         backgroundColor={theme.color.orange}
-        onClickCloseButton={() => {}}
+        onClickCloseButton={onClickBannerCloseBtn}
       >
         {bannerContent}
       </Banner>
@@ -46,7 +53,7 @@ const Headers: React.VFC<HeadersProps> = ({ bannerContent, bannerSrc }) => {
           { content: "원포인트 클래스", href: "/onepoint" },
         ]}
       />
-    </div>
+    </React.Fragment>
   );
 };
 

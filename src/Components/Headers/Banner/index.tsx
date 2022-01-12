@@ -5,14 +5,15 @@ import { Button, CloseIcon } from "@class101/ui";
 type wrapperType = {
   fontColor: string;
   backgroundColor: string;
+  hide: boolean;
 };
 
 const Wrapper = styled.div<wrapperType>`
   width: 100%;
-  display: flex;
   color: ${({ fontColor }) => fontColor};
   background-color: ${({ backgroundColor }) => backgroundColor};
   z-index: 2000;
+  display: ${({ hide }) => (hide ? "none" : "flex")};
 
   cursor: pointer;
 `;
@@ -65,6 +66,7 @@ const Container = styled.div`
 interface BannerProps {
   fontColor: string;
   backgroundColor: string;
+  hide: boolean;
   onClickBanner: () => void;
   onClickCloseButton: () => void;
 }
