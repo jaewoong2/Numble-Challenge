@@ -14,6 +14,7 @@ const Wrapper = styled.div`
   width: 220px;
   border-top: 0px solid black;
   border: 1px solid rgb(239, 239, 239);
+  background-color: white;
 
   .category-title {
     padding-top: 20px;
@@ -45,6 +46,8 @@ const ContentsContainer = styled.div`
   position: absolute;
   width: 100%;
   left: 100%;
+  background-color: white;
+
   top: -1px;
 
   border-top: 0px solid black;

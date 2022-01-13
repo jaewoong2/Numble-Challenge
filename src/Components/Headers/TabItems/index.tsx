@@ -13,6 +13,7 @@ const Wrapper = styled.div`
   margin-left: auto;
   margin-right: auto;
   align-items: center;
+  position: relative;
 
   .main-navs {
     font-weight: bold;
@@ -38,14 +39,18 @@ const Wrapper = styled.div`
 
   .tab-wrapper {
     position: relative;
+    z-index: 2;
 
     .tab {
+      position: relative;
+
       display: flex;
       box-shadow: none;
       align-items: center;
       margin-right: 32px;
 
       .category {
+        z-index: 100;
         margin: 0;
         div {
           color: ${({ theme }) => theme.color.black};

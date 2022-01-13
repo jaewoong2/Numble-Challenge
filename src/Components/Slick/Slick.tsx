@@ -18,7 +18,7 @@ const SlideWrapper = styled.section<{
     overflow: unset;
     overflow-x: hidden;
     overflow-y: visible;
-    transform: translateY(32px);
+    transform: translateY(72px);
     border-radius: 8px;
   }
 
@@ -65,7 +65,7 @@ function Slick({
       arrows: false,
       slidesToShow: 1,
       autoplay: Boolean(autoplay),
-      autoplaySpeed: typeof autoplay === "boolean" ? 3000 : autoplay,
+      autoplaySpeed: typeof autoplay === "boolean" ? 8000 : autoplay,
       afterChange: (index) => {
         getIndex(index);
       },
