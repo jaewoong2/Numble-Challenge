@@ -9,12 +9,15 @@ const Wrapper = styled.div`
   padding-left: 48px;
 
   .title {
-    width: 100%;
+    position: absolute;
+    top: 0;
+
+    min-width: 35%;
     margin-top: 10px;
     display: flex;
+    flex-direction: column;
+
     white-space: pre-line;
-    -webkit-box-align: center;
-    align-items: center;
     max-width: 380px;
     color: rgb(255, 255, 255);
     font-size: 34px;
@@ -25,6 +28,7 @@ const Wrapper = styled.div`
   }
 
   .sub {
+    width: 100%;
     display: flex;
     margin: 10px 0px 0px;
     white-space: pre-line;
@@ -39,6 +43,28 @@ const Wrapper = styled.div`
       width: 100%;
     }
   }
+
+  @media screen and (max-width: ${({ theme }) => theme.device.desktop}) {
+    .title {
+      font-size: 24px;
+      line-height: 32px;
+      max-width: 240px;
+      font-weight: 600;
+    }
+
+    .sub {
+      font-size: 14px;
+      margin-top: 6px;
+      line-height: 21px;
+      max-width: 300px;
+    }
+  }
+
+  @media screen and (max-width: 640px) {
+    .title {
+      position: relative;
+    }
+  }
 `;
 
 interface TextProps {
@@ -48,8 +74,10 @@ interface TextProps {
 const Text: React.FC<TextProps> = ({ children, subTitle }) => {
   return (
     <Wrapper>
-      <div className="title ">{children}</div>
-      <div className="title sub">{subTitle}</div>
+      <div className="title ">
+        {children}
+        <div className="sub">{subTitle}</div>
+      </div>
     </Wrapper>
   );
 };

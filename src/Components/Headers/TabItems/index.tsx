@@ -65,9 +65,6 @@ const Wrapper = styled.div`
     }
   }
 
-  @media screen and (max-width: ${({ theme }) => theme.device.tablet}) {
-  }
-
   @media screen and (max-width: ${({ theme }) => theme.size.maxWidth}) {
     margin: 0 32px 0 32px;
   }
@@ -84,6 +81,15 @@ const Wrapper = styled.div`
 
     padding: 0px 24px 8px 24px;
     margin: 0;
+  }
+
+  @media screen and (max-width: ${({ theme }) => theme.device.tablet}) {
+    padding: 0 0px 8px 24px;
+    margin-right: 0;
+
+    h4 {
+      font-weight: 400;
+    }
   }
 `;
 

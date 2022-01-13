@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import styled from "@emotion/styled";
 import React from "react";
 import Slider, { Settings } from "react-slick";
@@ -28,6 +28,18 @@ const SlideWrapper = styled.section<{
       border: none;
     }
   }
+
+  @media screen and (max-width: 640px) {
+    width: 100%;
+    height: 70%;
+    margin-left: 10%;
+
+    .slick-list {
+      width: 90%;
+      height: 70%;
+      transform: translateY(10px);
+    }
+  }
 `;
 
 interface sliderProps {
@@ -45,18 +57,26 @@ interface sliderProps {
   getIndex: (index: number) => void;
   width: string;
   height: string;
+  setSlider: React.Dispatch<any>;
 }
 
 function Slick({
   children,
   className,
   autoplay = true,
-  speed = 300,
+  speed = 95,
   loop = true,
   getIndex,
   width,
   height,
+  setSlider,
 }: sliderProps) {
+  const slider = useRef<any>();
+
+  useEffect(() => {
+    setSlider(slider);
+  }, [slider, setSlider]);
+
   const settings = useMemo<Settings>(
     () => ({
       dots: false,
@@ -74,7 +94,9 @@ function Slick({
   );
   return (
     <SlideWrapper width={width} height={height} className={className}>
-      <Slider {...settings}>{children}</Slider>
+      <Slider ref={slider} {...settings}>
+        {children}
+      </Slider>
     </SlideWrapper>
   );
 }

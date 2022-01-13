@@ -36,11 +36,23 @@ interface ItemsProps {
   width: string;
   height: string;
   getIndex: (index: number) => void;
+  setSlider: React.Dispatch<any>;
 }
 
-const Item: React.VFC<ItemsProps> = ({ items, width, height, getIndex }) => {
+const Item: React.VFC<ItemsProps> = ({
+  setSlider,
+  items,
+  width,
+  height,
+  getIndex,
+}) => {
   return (
-    <Slick getIndex={getIndex} width={width} height={height}>
+    <Slick
+      setSlider={setSlider}
+      getIndex={getIndex}
+      width={width}
+      height={height}
+    >
       {items.map(({ item, name }, index) => (
         <SliderItem width={width} height={height} key={index}>
           <div className="image-container">

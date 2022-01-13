@@ -1,9 +1,19 @@
+import styled from "@emotion/styled";
 import React, { useCallback, useState } from "react";
 import { theme } from "src/Style/theme";
 import Banner from "./Banner";
 import Header from "./Header";
 import Navs from "./Navs";
 import TabItems from "./TabItems";
+
+const Wrapper = styled.section`
+  @media screen and (max-width: ${({ theme }) => theme.device.mobile}) {
+  }
+
+  @media screen and (max-width: 640px) {
+    font-size: 14px;
+  }
+`;
 
 interface HeadersProps {
   bannerContent: string;
@@ -18,7 +28,7 @@ const Headers: React.VFC<HeadersProps> = ({ bannerContent, bannerSrc }) => {
   }, []);
 
   return (
-    <React.Fragment>
+    <Wrapper>
       <Banner
         hide={bannerHide}
         onClickBanner={() => {}}
@@ -53,7 +63,7 @@ const Headers: React.VFC<HeadersProps> = ({ bannerContent, bannerSrc }) => {
           { content: "원포인트 클래스", href: "/onepoint" },
         ]}
       />
-    </React.Fragment>
+    </Wrapper>
   );
 };
 

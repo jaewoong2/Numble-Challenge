@@ -28,7 +28,25 @@ const Wrapper = styled.div<{ bgColor?: string }>`
 
     img {
       width: auto;
-      height: 70%;
+      height: 90%;
+    }
+  }
+
+  @media screen and (max-width: 640px) {
+    .bg-image {
+      position: absolute;
+      left: 2%;
+      width: auto;
+      height: 100%;
+      display: flex;
+
+      align-items: center;
+      filter: blur(10px);
+
+      img {
+        width: auto;
+        height: 50%;
+      }
     }
   }
 `;
@@ -42,6 +60,10 @@ const Container = styled.div`
   position: relative;
   z-index: 1;
   justify-content: center;
+
+  @media screen and (max-width: 640px) {
+    flex-direction: column-reverse;
+  }
 `;
 
 type dataType = {
@@ -59,10 +81,31 @@ interface TopCarouselProps {
 
 const TopCarousel: React.VFC<TopCarouselProps> = ({ datas }) => {
   const [index, setIndex] = useState(0);
+  const [slider, setSlider] = useState<any>(undefined);
 
   const onChangeIndex = useCallback((index_: number) => {
     setIndex(index_);
   }, []);
+
+  const onClickLeftButton = useCallback(() => {
+    setIndex((prev) => {
+      slider?.current?.slickPrev();
+      if (prev === 0) {
+        return datas.length - 1;
+      }
+      return prev - 1;
+    });
+  }, [datas, slider]);
+
+  const onClickRightButton = useCallback(() => {
+    setIndex((prev) => {
+      slider?.current?.slickNext();
+      if (prev === datas.length - 1) {
+        return 0;
+      }
+      return prev + 1;
+    });
+  }, [datas, slider]);
 
   return (
     <Wrapper bgColor={datas[index].bgColor}>
@@ -71,6 +114,7 @@ const TopCarousel: React.VFC<TopCarouselProps> = ({ datas }) => {
       </div>
       <Container>
         <Item
+          setSlider={setSlider}
           getIndex={(index) => onChangeIndex(index)}
           width="50%"
           height="auto"
@@ -79,7 +123,13 @@ const TopCarousel: React.VFC<TopCarouselProps> = ({ datas }) => {
         <Text subTitle={<span>{datas[index].subtitle}</span>}>
           {datas[index].title}
         </Text>
-        <ProgressBar />
+        <ProgressBar
+          index={index}
+          length={datas.length}
+          time={8}
+          onClickLeftButton={onClickLeftButton}
+          onClickRightButton={onClickRightButton}
+        />
       </Container>
     </Wrapper>
   );
