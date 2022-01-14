@@ -11,7 +11,7 @@ const Wrapper = styled.div<{ bgColor: string }>`
     display: flex;
     align-items: center;
     width: 100%;
-    height: 100%;
+    height: 100px;
 
     @media screen and (min-width: ${({ theme }) => theme.device.desktop}) {
       .title {

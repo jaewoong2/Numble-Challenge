@@ -1,6 +1,7 @@
-import { Badge, Colors } from "@class101/ui";
+import { Badge, Colors, TimerIcon } from "@class101/ui";
 import styled from "@emotion/styled";
 import React from "react";
+import Card from "./Card";
 import Slick from "./Slick";
 
 const SliderItem = styled.div<{
@@ -38,25 +39,27 @@ const SliderItem = styled.div<{
 `;
 
 type itemType = {
-  id: number;
-  title: string;
-  creator: string;
-  img: string;
-  like: number;
-  thumsUp: number; // 없을 시 null
-  price: {
+  id?: number;
+  title?: string;
+  creator?: string;
+  img?: string;
+  like?: number;
+  thumsUp?: number; // 없을 시 null
+  price?: {
     originalPrice: number;
     salePrice: number;
-    installment: number; // 할부 개월 수 // 0일 시 표시하지 않음
+    installment: number | undefined; // 할부 개월 수 // 0일 시 표시하지 않음
   };
-  coupon: number; // 없을 시 null // number만원 쿠폰
+  coupon?: number; // 없을 시 null // number만원 쿠폰
 };
 
 interface ItemsProps {
   items: itemType[];
   width: string;
   height: string;
+  timedeal: boolean;
   slidesToShow: number;
+  badgeColor: string;
 }
 
 const Item: React.VFC<ItemsProps> = ({
@@ -64,6 +67,8 @@ const Item: React.VFC<ItemsProps> = ({
   width,
   height,
   slidesToShow,
+  timedeal,
+  badgeColor,
 }) => {
   return (
     <Slick
@@ -74,22 +79,7 @@ const Item: React.VFC<ItemsProps> = ({
     >
       {items.map((item, index) => (
         <SliderItem width={width} height={height} key={index}>
-          <div className="image-container">
-            <img src={item.img} alt={item.title} />
-            {item.title}
-          </div>
-          {item.coupon ? (
-            <Badge
-              size={"md"}
-              backgroundColor={Colors.red600}
-              color={Colors.white}
-              className="badge"
-            >
-              {item.coupon}
-            </Badge>
-          ) : (
-            ""
-          )}
+          <Card badgeColor={badgeColor} timedeal={timedeal} {...item} />
         </SliderItem>
       ))}
     </Slick>
