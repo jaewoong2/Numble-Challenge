@@ -1,5 +1,6 @@
 import React from "react";
 import Headers from "./Components/Headers";
+import Main from "./Components/Main";
 import TopCarousel from "./Components/TopCarousel";
 import { TOPEVENTCAROUSEL } from "./Constant";
 
@@ -11,6 +12,7 @@ const App = () => {
         bannerContent="지금 가입하고 원하는 클래스 1개 무료 체험하기 >"
       />
       <TopCarousel datas={TOPEVENTCAROUSEL.top_event} />
+      <Main />
     </>
   );
 };

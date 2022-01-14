@@ -1,14 +1,14 @@
 import styled from "@emotion/styled";
 import React, { useCallback, useEffect, useState } from "react";
-import Item from "../Slick/Item";
-import Carousel from "./Carousel";
+import Item from "./Slick/Item";
 import ProgressBar from "./ProgressBar";
 import Text from "./Text";
 
 const Wrapper = styled.div<{ bgColor?: string }>`
   width: 100%;
   margin: 0px auto;
-  background-color: ${({ bgColor }) => (bgColor ? bgColor : "blue")};
+  background-color: ${({ bgColor }) =>
+    bgColor ? bgColor : "rgba(50, 50, 250, 0.8)"};
   position: relative;
   display: flex;
   justify-content: center;
@@ -118,7 +118,11 @@ const TopCarousel: React.VFC<TopCarouselProps> = ({ datas }) => {
           getIndex={(index) => onChangeIndex(index)}
           width="50%"
           height="auto"
-          items={datas.map(({ img, title }) => ({ item: img, name: title }))}
+          items={datas.map(({ img, title, badge }) => ({
+            item: img,
+            name: title,
+            badge: badge,
+          }))}
         />
         <Text subTitle={<span>{datas[index].subtitle}</span>}>
           {datas[index].title}

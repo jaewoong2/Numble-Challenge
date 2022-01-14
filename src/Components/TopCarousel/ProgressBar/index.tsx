@@ -1,8 +1,19 @@
 import { Button, ChevronLeftIcon, ChevronRightIcon } from "@class101/ui";
+import { css, keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 
-const Wrapper = styled.div<{ current: string }>`
+const ProgressAnimation = keyframes`
+    0% {
+      width: 0%;
+    }
+
+    100% {
+      width: 100%;
+    }
+`;
+
+const Wrapper = styled.div<{ current: string; reset: boolean }>`
   @media screen and (max-width: 640px) {
     display: none;
   }
@@ -33,10 +44,19 @@ const Wrapper = styled.div<{ current: string }>`
       left: 0;
       top: 0;
       content: "";
-      width: ${({ current }) => current};
+
       height: 1px;
       background-color: white;
       transition: width 0.9s linear;
+
+      ${({ reset }) =>
+        reset
+          ? css`
+              animation: ${ProgressAnimation} 8s linear infinite;
+            `
+          : css`
+              animation: none;
+            `}
     }
   }
 
@@ -84,27 +104,43 @@ const ProgressBar: React.VFC<ProgressBarProps> = ({
 }) => {
   const [sec, setSec] = useState(0);
   const [prevIndex, setPrevIndex] = useState(index);
+  const [reset, setReset] = useState(true);
 
   useEffect(() => {
     if (prevIndex !== index) {
       setPrevIndex(index);
-      setSec(0);
+      setReset(false);
     }
 
-    const interval = setInterval(() => {
-      setSec((prev) => {
-        if (prev >= time) {
-          return 0;
-        }
-        return prev + 1;
-      });
-    }, 900);
+    const timer = setTimeout(() => {
+      if (reset === false) {
+        setReset(true);
+      }
+    }, 10);
 
-    return () => clearInterval(interval);
-  }, [prevIndex, index, time]);
+    return () => clearTimeout(timer);
+  }, [index, prevIndex, reset]);
+
+  // useEffect(() => {
+  //   if (prevIndex !== index) {
+  //     setPrevIndex(index);
+  //     setSec(0);
+  //   }
+
+  //   const interval = setInterval(() => {
+  //     setSec((prev) => {
+  //       if (prev >= time) {
+  //         return 0;
+  //       }
+  //       return prev + 1;
+  //     });
+  //   }, 900);
+
+  //   return () => clearInterval(interval);
+  // }, [prevIndex, index, time]);
 
   return (
-    <Wrapper current={(100 / time) * sec + "%"}>
+    <Wrapper reset={reset} current={(100 / time) * sec + "%"}>
       <span className="index">
         {index + 1} | {length}
       </span>
