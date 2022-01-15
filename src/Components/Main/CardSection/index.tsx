@@ -24,7 +24,7 @@ const TitleContainer = styled.div`
     }
 
     .title,
-    .subtitle {
+    .more {
       width: 100%;
       cursor: pointer;
       line-height: 34px;
@@ -33,13 +33,23 @@ const TitleContainer = styled.div`
       margin: 0px;
     }
 
-    .subtitle {
+    .more {
       display: flex;
       justify-content: flex-end;
       margin-left: 32px;
       font-weight: bold;
       font-size: 14px;
       color: ${({ theme }) => theme.color.grayDarker};
+      align-items: flex-end;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      font-weight: normal;
+      color: rgb(162, 162, 162);
+      line-height: 20px;
+      letter-spacing: -0.15px;
+      margin: 4px 0px 0px;
     }
   }
 
@@ -52,7 +62,15 @@ const TitleContainer = styled.div`
         margin: 0;
         margin-left: 32px;
       }
-      .subtitle {
+      .more {
+        display: none;
+      }
+    }
+  }
+
+  @media screen and (max-width: ${({ theme }) => theme.device.mobile}) {
+    .titles {
+      .more {
         display: none;
       }
     }
@@ -62,19 +80,23 @@ const TitleContainer = styled.div`
 interface CardSectionProps {
   title: string;
   subtitle: string;
+  more: string;
 }
 
 const CardSection: React.FC<CardSectionProps> = ({
   children,
   title,
   subtitle,
+  more,
 }) => {
   return (
     <Wrapper>
       <TitleContainer>
         <div className="titles">
-          <h2 className="title">{title}</h2>
-          <h3 className="subtitle">{subtitle}</h3>
+          <h2 className="title">
+            {title} <br /> <p className="subtitle">{subtitle}</p>
+          </h2>
+          <h3 className="more">{more}</h3>
         </div>
       </TitleContainer>
       {children}

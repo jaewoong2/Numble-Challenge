@@ -15,8 +15,10 @@ const SlideWrapper = styled.section<{
   margin-top: 24px;
   position: relative;
   width: ${({ width }) => width};
-  height: ${({ height }) => height.slice(0, height.length - 2) + 32 + "px"};
 
+  .slick-slider {
+    min-width: ${({ theme }) => theme.device.tablet};
+  }
   * {
     &:focus {
       outline: none;
@@ -82,13 +84,12 @@ interface sliderProps {
 function Slick({
   children,
   className,
-  speed = 400,
+  speed = 700,
   width,
   slidesToShow = 4,
   height,
   length,
 }: sliderProps) {
-  const slider = useRef<any>();
   const [button, setButton] = useState<"Left" | "Both" | "Right">("Right");
 
   const settings = useMemo<Settings>(
@@ -96,9 +97,11 @@ function Slick({
       dots: false,
       infinite: false,
       speed: speed,
+      className: "center",
       arrows: true,
       slidesToShow: slidesToShow,
       autoplay: false,
+      swipeToSlide: true,
       nextArrow: (
         <Button size="sm">
           <ChevronRightIcon fillColor="black" className="nextArrow" />
@@ -128,9 +131,7 @@ function Slick({
       height={height}
       className={className}
     >
-      <Slider ref={slider} {...settings}>
-        {children}
-      </Slider>
+      <Slider {...settings}>{children}</Slider>
     </SlideWrapper>
   );
 }

@@ -1,6 +1,7 @@
 import {
   Badge,
   Button,
+  ClapOutlineIcon,
   Colors,
   HeartIcon,
   HeartOutlineIcon,
@@ -9,13 +10,14 @@ import {
 } from "@class101/ui";
 import styled from "@emotion/styled";
 import React from "react";
+import { getDay, getDDay } from "src/Utils";
 
 const Wrapper = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
   height: 100%;
+  align-items: center;
 
   .image-container {
     width: 95%;
@@ -111,6 +113,13 @@ const Container = styled.div`
     display: flex;
     width: 100%;
 
+    .icon-description {
+      display: flex;
+      align-items: center;
+      margin-left: 3px;
+      color: ${({ color }) => (color ? color : "black")};
+    }
+
     .icon {
       display: flex;
       align-items: center;
@@ -166,6 +175,61 @@ const Container = styled.div`
       color: #a2a2a2;
     }
   }
+
+  .periods {
+    margin: 0 4px 0 0;
+    padding: 0;
+    font-weight: 700;
+    border: 0;
+    font-size: 0.8125rem;
+    line-height: 1.125rem;
+    color: #1a1a1a;
+    display: flex;
+
+    h4 {
+      width: fit-content;
+      margin-right: 4px;
+    }
+  }
+`;
+
+const CheerContainer = styled.div`
+  width: 100%;
+  .finish-date {
+    font-size: 11px;
+    font-weight: normal;
+    color: rgb(162, 162, 162);
+    line-height: 16px;
+    letter-spacing: normal;
+    margin: 0px;
+  }
+
+  .cheer-up {
+    width: 100%;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(255, 77, 0, 0.1);
+    color: rgb(255, 77, 0);
+    margin-top: 8px;
+    border-radius: 3px;
+
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: -0.2px;
+    height: 40px;
+
+    &:hover {
+      background-color: rgba(255, 77, 0, 0.2);
+      transition: background-color 0.1s ease 0s;
+    }
+
+    transition: background-color 0.1s ease 0s;
+    span {
+      padding: 0 16px 0 16px;
+    }
+  }
 `;
 
 interface CardProps {
@@ -183,6 +247,17 @@ interface CardProps {
   };
   coupon?: number; // 없을 시 null // number만원 쿠폰\
   badgeColor: string;
+  cheer?: {
+    goal: number;
+    score: number;
+    finishDate: string; // timestamp
+  };
+  LastComponent?: React.ReactNode;
+  topHeart?: boolean;
+  period?: {
+    startDate: string; // yyyy-mm-dd
+    finishDate: string; // yyyy-mm-dd
+  };
 }
 
 const Card: React.FC<CardProps> = ({
@@ -195,7 +270,15 @@ const Card: React.FC<CardProps> = ({
   price,
   timedeal,
   badgeColor,
+  cheer,
+  LastComponent,
+  topHeart = true,
+  period,
 }) => {
+  if (LastComponent) {
+    return <>{LastComponent}</>;
+  }
+
   return (
     <Wrapper>
       <div className="image-container">
@@ -214,16 +297,41 @@ const Card: React.FC<CardProps> = ({
         <div className="creator">{creator}</div>
         <div className="title">{title}</div>
         <div className="icons">
-          <div className="icon heart">
-            <HeartIcon size={13} fillColor="rgb(215, 215, 215)" />
-            <div>{like}</div>
-          </div>
-          <div className="icon like">
-            <LikeIcon size={13} fillColor="rgb(215, 215, 215)" />
-            <div>{thumsUp || ""}</div>
-          </div>
+          {like ? (
+            <div className="icon heart">
+              <HeartIcon size={13} fillColor="rgb(215, 215, 215)" />
+              <div className="icon-description">{like}</div>
+            </div>
+          ) : (
+            ""
+          )}
+          {thumsUp ? (
+            <div className="icon like">
+              <>
+                <LikeIcon size={13} fillColor="rgb(215, 215, 215)" />
+                <div className="icon-description">{thumsUp}</div>
+              </>
+            </div>
+          ) : (
+            ""
+          )}
+          {cheer ? (
+            <div className="icon clap">
+              <>
+                <ClapOutlineIcon size={13} fillColor={Colors.red600} />
+                <div
+                  className="icon-description"
+                  style={{ color: Colors.red600 }}
+                >
+                  {Math.ceil((cheer.score / cheer.goal) * 100)}% 달성
+                </div>
+              </>
+            </div>
+          ) : (
+            ""
+          )}
         </div>
-        <div className="line" />
+        {(thumsUp || cheer || like) && <div className="line" />}
         <div>
           {price && (
             <div className="price-container">
@@ -246,7 +354,37 @@ const Card: React.FC<CardProps> = ({
               </span>
             </div>
           )}
+          {period && period.finishDate !== "0" && period.startDate !== "0" ? (
+            <div className="periods">
+              <h4 style={{ color: Colors.red400 }}>
+                D-{getDDay(period.finishDate)}
+              </h4>
+              <h4>
+                {period?.startDate +
+                  "(" +
+                  getDay(period?.startDate) +
+                  ")" +
+                  "~" +
+                  period?.finishDate +
+                  "(" +
+                  getDay(period?.finishDate) +
+                  ")"}
+              </h4>
+            </div>
+          ) : (
+            ""
+          )}
         </div>
+        {cheer ? (
+          <CheerContainer>
+            <div className="finish-date">{cheer.finishDate}까지</div>
+            <div className="cheer-up">
+              <span>응원하기</span>
+            </div>
+          </CheerContainer>
+        ) : (
+          ""
+        )}
       </Container>
       {coupon ? (
         <Badge
@@ -260,9 +398,11 @@ const Card: React.FC<CardProps> = ({
       ) : (
         ""
       )}
-      <Button className="heart-btn">
-        <HeartOutlineIcon fillColor="rgb(215, 215, 215)" />
-      </Button>
+      {topHeart && (
+        <Button className="heart-btn">
+          <HeartOutlineIcon fillColor="rgb(215, 215, 215)" />
+        </Button>
+      )}
     </Wrapper>
   );
 };
