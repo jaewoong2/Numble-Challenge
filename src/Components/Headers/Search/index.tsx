@@ -39,13 +39,17 @@ const ControlForm = styled.form`
 
 interface SearchProps {
   placeholder?: string;
+  icon?: boolean;
+  className?: string;
 }
 
 const Search: React.VFC<SearchProps> = ({
   placeholder = "찾으시는 취미가 있으신가요?",
+  icon = true,
+  className,
 }) => {
   return (
-    <ControlForm onSubmit={(e) => e.preventDefault}>
+    <ControlForm className={className} onSubmit={(e) => e.preventDefault}>
       <Input
         className="input"
         autocomplete={false}
@@ -53,9 +57,11 @@ const Search: React.VFC<SearchProps> = ({
         fill={true}
         placeholder={placeholder}
       />
-      <button onClick={() => {}}>
-        <SearchIcon size={18} />
-      </button>
+      {icon && (
+        <button onClick={() => {}}>
+          <SearchIcon size={18} />
+        </button>
+      )}
     </ControlForm>
   );
 };

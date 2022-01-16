@@ -1,8 +1,10 @@
 import React from "react";
+import Bottom from "./Components/Bottom";
+import BottomNav from "./Components/BottomNav";
 import Headers from "./Components/Headers";
 import Main from "./Components/Main";
 import TopCarousel from "./Components/TopCarousel";
-import { TOPEVENTCAROUSEL } from "./Constant";
+import { POPULARCATEGORIES, TOPEVENTCAROUSEL } from "./Constant";
 
 const App = () => {
   return (

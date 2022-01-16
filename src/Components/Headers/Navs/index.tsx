@@ -1,3 +1,4 @@
+import { Colors } from "@class101/ui";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import React, { HTMLAttributes } from "react";
@@ -44,26 +45,42 @@ const Wrapper = styled.div<{ hover: boolean }>`
 type navType = {
   content: string;
   href: string;
+  current?: boolean;
 };
 
 interface NavsProps extends HTMLAttributes<HTMLDivElement> {
   navs: navType[];
   hover?: boolean;
+  current?: string;
 }
 
-export const NavItem = ({ href, content }: navType) => {
+export const NavItem = ({ href, content, current }: navType) => {
   return (
-    <a key={content} href={href}>
+    <a
+      style={{ color: current ? Colors.orange400 : "black" }}
+      key={content}
+      href={href}
+    >
       <h4>{content}</h4>
     </a>
   );
 };
 
-const Navs: React.VFC<NavsProps> = ({ navs, hover = false, ...props }) => {
+const Navs: React.VFC<NavsProps> = ({
+  current,
+  navs,
+  hover = false,
+  ...props
+}) => {
   return (
     <Wrapper hover={hover} {...props}>
       {navs?.map(({ content, href }) => (
-        <NavItem content={content} href={href} key={content} />
+        <NavItem
+          current={content === current}
+          content={content}
+          href={href}
+          key={content}
+        />
       ))}
     </Wrapper>
   );

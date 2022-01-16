@@ -1,12 +1,12 @@
 import styled from "@emotion/styled";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { theme } from "src/Style/theme";
 import Banner from "./Banner";
 import Header from "./Header";
-import Navs from "./Navs";
 import TabItems from "./TabItems";
 
 const Wrapper = styled.section`
+  position: relative;
   @media screen and (max-width: ${({ theme }) => theme.device.mobile}) {
   }
 
@@ -22,9 +22,23 @@ interface HeadersProps {
 
 const Headers: React.VFC<HeadersProps> = ({ bannerContent, bannerSrc }) => {
   const [bannerHide, setBannerHide] = useState(false);
+  const [params, setParms] = useState<"클래스" | "스토어">("클래스");
+  const [searchClick, setSearchClick] = useState(false);
 
   const onClickBannerCloseBtn = useCallback(() => {
     setBannerHide(true);
+  }, []);
+
+  useEffect(() => {
+    if (window.location.pathname === "/store") {
+      setParms("스토어");
+    } else {
+      setParms("클래스");
+    }
+  }, []);
+
+  const onSearhToggle = useCallback((boolean: boolean) => {
+    setSearchClick(boolean);
   }, []);
 
   return (
@@ -39,6 +53,9 @@ const Headers: React.VFC<HeadersProps> = ({ bannerContent, bannerSrc }) => {
         {bannerContent}
       </Banner>
       <Header
+        isClicked={searchClick}
+        onSearchClick={(bool: boolean) => onSearhToggle(bool)}
+        current={params}
         titles={[
           { content: "클래스", href: "/" },
           { content: "스토어", href: "/store" },

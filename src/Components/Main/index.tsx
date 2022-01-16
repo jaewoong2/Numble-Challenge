@@ -1,7 +1,23 @@
-import { Colors } from "@class101/ui";
+import {
+  Colors,
+  MenuIcon,
+  PlayIcon,
+  PlayOutlineIcon,
+  StoreIcon,
+  StoreOutlineIcon,
+} from "@class101/ui";
+import { PersonOutline } from "@class101/ui/dist/Icon/export-legacy.generated";
 import styled from "@emotion/styled";
-import React from "react";
-import { MDRECOMMEND, TODAYSALE, OPENCLASS, EVENT } from "src/Constant";
+import React, { useEffect, useState } from "react";
+import {
+  MDRECOMMEND,
+  TODAYSALE,
+  OPENCLASS,
+  EVENT,
+  POPULARCATEGORIES,
+} from "src/Constant";
+import Bottom from "../Bottom";
+import BottomNav from "../BottomNav";
 import Banner from "./Banner";
 import CardSection from "./CardSection";
 import Item from "./Slick/Item";
@@ -14,11 +30,44 @@ const Wrapper = styled.main`
   margin: 0 auto;
   max-width: ${({ theme }) => theme.size.maxWidth};
   margin-top: 64px;
+  position: relative;
+
+  .icon-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 25%;
+    .icon-description {
+      margin-top: 8px;
+      font-size: 9px;
+      font-weight: 600;
+      color: rgb(26, 26, 26);
+      line-height: 12px;
+      letter-spacing: normal;
+    }
+  }
 `;
 
 interface MainProps {}
 
 const Main: React.VFC<MainProps> = ({}) => {
+  const [clientWidth, setClientWidth] = useState(
+    document.querySelector("main")?.clientWidth
+  );
+
+  useEffect(() => {
+    setClientWidth(document.querySelector("main")?.clientWidth);
+
+    const resize = () => {
+      setClientWidth(document.querySelector("main")?.clientWidth);
+    };
+
+    window.addEventListener("resize", resize);
+
+    return () => window.removeEventListener("resize", resize);
+  }, []);
+
   return (
     <Wrapper>
       <Banner bgColor="rgb(25, 65, 235)" subTitle="3만원 쿠폰도 무조건 발급 >">
@@ -77,6 +126,27 @@ const Main: React.VFC<MainProps> = ({}) => {
           height={"auto"}
         />
       </CardSection>
+      <Bottom categories={POPULARCATEGORIES} />
+      <BottomNav width={clientWidth + "px"}>
+        <div className="icon-container">
+          <PlayOutlineIcon fillColor={Colors.orange400} size={22} />
+          <div style={{ color: Colors.orange400 }} className="icon-description">
+            클래스
+          </div>
+        </div>
+        <div className="icon-container">
+          <StoreOutlineIcon size={22} />
+          <div className="icon-description">스토어</div>
+        </div>
+        <div className="icon-container">
+          <MenuIcon size={22} />
+          <div className="icon-description">카테고리</div>
+        </div>
+        <div className="icon-container">
+          <PersonOutline size={22} />
+          <div className="icon-description">마이페이지</div>
+        </div>
+      </BottomNav>
     </Wrapper>
   );
 };

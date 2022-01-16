@@ -786,3 +786,69 @@ export const OPENCLASS = {
     },
   ],
 };
+export const POPULARCATEGORIES = [
+  {
+    subject: "크리에이티브",
+    title: "디지털 드로잉",
+    href: "creative/digitaldrawing",
+  },
+  {
+    subject: "크리에이티브",
+    title: "공예",
+    href: "creative/crafts",
+  },
+  {
+    subject: "크리에이티브",
+    title: "드로잉",
+    href: "creative/drawing",
+  },
+  {
+    subject: "수입 창출",
+    title: "창업 · 부업",
+    href: "income/sideline",
+  },
+  {
+    subject: "크리에이티브",
+    title: "베이킹 · 디저트",
+    href: "creative/baking",
+  },
+  {
+    subject: "커리어",
+    title: "디자인",
+    href: "career/design",
+  },
+  {
+    subject: "크리에이티브",
+    title: "운종",
+    href: "creative/workout",
+  },
+  {
+    subject: "내게 맞는",
+    title: "클래스 추천 받기",
+    href: "/",
+  },
+];
+
+export const RECOMMEND_SEARCH_WORD = [
+  "#오늘의 특가",
+  "#인기 클래스",
+  "#선착순, 아이패드 증정",
+  "#준비물 무료 증정",
+  "#월 1만원대~",
+  "#1+1클래스",
+  "#최신 트렌드",
+  "#새해 특가",
+];
+
+export const POPULAR_SEARCH_WORD = [
+  "아이패드",
+  "프로크레이트",
+  "일러스트",
+  "비지니스 사주",
+  "이모티콘",
+  "드로잉",
+  "그림",
+  "포토샵",
+  "키트",
+  "코바늘",
+];
